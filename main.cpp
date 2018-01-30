@@ -93,12 +93,66 @@ void MyApp :: new_file()
 
 void MyApp :: open_dialog()
 {
-	this->load("not implemented yet");
+	Gtk::FileChooserDialog dialog(*(this->root), "Open file", Gtk::FILE_CHOOSER_ACTION_OPEN);
+	dialog.set_current_folder("~/");
+	
+	/* Add Buttons */
+	dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+	dialog.add_button("_Open", Gtk::RESPONSE_OK);
+
+	/* Add Filters */
+	Gtk::FileFilter filter_textfile;
+	filter_textfile.set_name("Text files");
+	filter_textfile.add_mime_type("text/plain");
+	dialog.add_filter(filter_textfile);
+
+	int result = dialog.run();
+
+	/* Handle the response */
+	switch(result)
+	{
+		case Gtk::RESPONSE_OK:
+		{
+			this->load((char *) dialog.get_filename().c_str());
+			break;
+		}
+		case Gtk::RESPONSE_CANCEL:
+		{
+			break;
+		}
+	}
 }
 
 void MyApp :: saveas_dialog()
 {
-	this->save("not implemented yet");
+	Gtk::FileChooserDialog dialog(*(this->root), "Save as", Gtk::FILE_CHOOSER_ACTION_SAVE);
+	dialog.set_current_folder("~/");
+	
+	/* Add Buttons */
+	dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+	dialog.add_button("_Save", Gtk::RESPONSE_OK);
+
+	/* Add Filters */
+	Gtk::FileFilter filter_textfile;
+	filter_textfile.set_name("Text files");
+	filter_textfile.add_mime_type("text/plain");
+	dialog.add_filter(filter_textfile);
+
+	int result = dialog.run();
+
+	/* Handle the response */
+	switch(result)
+	{
+		case Gtk::RESPONSE_OK:
+		{
+			this->save((char *) dialog.get_filename().c_str());
+			break;
+		}
+		case Gtk::RESPONSE_CANCEL:
+		{
+			break;
+		}
+	}
 }
 
 void MyApp :: about()
